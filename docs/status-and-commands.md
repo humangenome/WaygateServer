@@ -61,6 +61,10 @@ with `#` are ignored.
 Because the file is consumed whole, write it in one go (write to a temp name and rename) rather
 than appending lines to a file the host may already be reading.
 
+A command file that is already there when the host boots is deleted unread and noted in the
+log: it was written for a previous run, and a stale `shutdown` must never stop the server that
+has just come up.
+
 ## A2S (Source query) on port + 1
 
 The host answers `A2S_INFO` and `A2S_PLAYER` (with the challenge handshake) on UDP `port + 1`.
