@@ -11,6 +11,20 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-09-15
+
+### Client
+
+#### Added
+
+- A game folder that is not a Steam library install (a copied folder, or a folder chosen in
+  Settings) is started directly instead of through Steam, so Connect works on a PC where Steam
+  does not list the game.
+
+### Server
+
+No change; the package is rebuilt so both halves carry the same version.
+
 ## [0.1.2] - 2026-09-15
 
 The first release, out on Dimraeth's Early Access launch day.
