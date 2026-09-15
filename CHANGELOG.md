@@ -11,7 +11,7 @@ section here cannot be released.
 
 ## [Unreleased]
 
-## [0.1.1] - 2026-09-15
+## [0.1.2] - 2026-09-15
 
 The first release, out on Dimraeth's Early Access launch day.
 
