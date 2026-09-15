@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Waygate Discussions
+    url: https://github.com/HumanGenome/Waygate/discussions
+    about: Questions, ideas, and general discussion — please start here before opening an issue.
+  - name: Player-side issues
+    url: https://github.com/HumanGenome/Waygate/issues
+    about: Problems with the Waygate app on a player's PC — installing, connecting, updates.
+  - name: Hosting support
+    url: https://www.survivalservers.com/support
+    about: If you rent a managed Waygate server, panel/billing/support requests go to your host, not here.

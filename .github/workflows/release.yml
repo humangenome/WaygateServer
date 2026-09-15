@@ -1,0 +1,81 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to build the release body for (e.g. v0.1.0)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve tag
+        id: tag
+        run: |
+          TAG="${{ github.event.inputs.tag || github.ref_name }}"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+
+      # The tag must equal the version stamped in the build and the CHANGELOG.
+      # Three siblings published a release whose binary reported a different
+      # version than its own release page said.
+      - name: Assert version
+        run: tools/ci/assert-version.sh --tag "${{ steps.tag.outputs.tag }}"
+
+      # A missing CHANGELOG section is a hard failure here. A sibling's CI
+      # failed soft and published "See CHANGELOG.md for details." five times.
+      - name: Build release body from CHANGELOG
+        run: tools/ci/extract-changelog.sh "${{ steps.tag.outputs.version }}" release-body.md
+
+      - name: Lint release body
+        run: tools/ci/lint-release-notes.sh release-body.md "${{ steps.tag.outputs.version }}"
+
+      # TODO when the server source carve-out lands: build and package here,
+      # attach the server zip plus checksums.txt, and drop --draft below.
+      # Until then the release is created as a draft so nobody can download a
+      # release page that has nothing on it.
+      #
+      # Skipped when the release already exists: the release owner may create
+      # the release first (correct author, assets attached) and push the tag
+      # through it, in which case this workflow's job is only to gate the
+      # version, body, and author, not to create a second release.
+      - name: Create draft release
+        env:
+          # HUMANGENOME_PAT makes the release object authored by HumanGenome.
+          # With the default token it is authored github-actions[bot], and the
+          # author field is immutable once published.
+          GH_TOKEN: ${{ secrets.HUMANGENOME_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view "${{ steps.tag.outputs.tag }}" --json name >/dev/null 2>&1; then
+            echo "release ${{ steps.tag.outputs.tag }} already exists; leaving it as-is"
+          else
+            gh release create "${{ steps.tag.outputs.tag }}" \
+              --title "${{ steps.tag.outputs.tag }}" \
+              --notes-file release-body.md \
+              --draft
+          fi
+
+      - name: Assert release author
+        env:
+          GH_TOKEN: ${{ secrets.HUMANGENOME_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          AUTHOR=$(gh release view "${{ steps.tag.outputs.tag }}" --json author --jq .author.login)
+          echo "release author: ${AUTHOR}"
+          # Case-insensitive: the account's login is lowercase 'humangenome'
+          # while the display name is 'HumanGenome', and GitHub logins are not
+          # case-sensitive. The failure this guards against is the release
+          # being authored github-actions[bot], which no casing rescues.
+          if [ "$(echo "${AUTHOR}" | tr '[:upper:]' '[:lower:]')" != "humangenome" ]; then
+            echo "::error::release is authored '${AUTHOR}', expected HumanGenome — set the HUMANGENOME_PAT secret"
+            exit 1
+          fi

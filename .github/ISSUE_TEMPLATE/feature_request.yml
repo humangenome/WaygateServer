@@ -1,0 +1,37 @@
+name: Feature request
+description: Suggest a new capability or behaviour for WaygateServer
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Feature requests for the **Waygate app** — the server list, connecting, characters, updates — belong on the [Waygate hub](https://github.com/HumanGenome/Waygate/issues).
+
+  - type: textarea
+    id: usecase
+    attributes:
+      label: What are you trying to run?
+      description: Describe the situation, not the solution. What does WaygateServer not let you do today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like it to do instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What do you do today instead?
+      description: What workaround exists, and why is it not good enough?
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmations
+      options:
+        - label: I've searched existing issues and discussions for the same idea
+          required: true

@@ -1,0 +1,84 @@
+name: Bug report
+description: Something in WaygateServer or the host mod is broken
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug. Please make sure this is about the Waygate **server** — not your hosting provider's control panel, billing, or support.
+
+        If the problem is in the **Waygate app** on a player's PC, file it on the [Waygate hub](https://github.com/HumanGenome/Waygate/issues) instead.
+
+  - type: input
+    id: waygate-version
+    attributes:
+      label: Waygate version
+      placeholder: "e.g. v0.1.0 — and which package you installed"
+    validations:
+      required: true
+
+  - type: input
+    id: game-build
+    attributes:
+      label: Dimraeth build (Steam build ID if known)
+      placeholder: "e.g. build 1234567"
+
+  - type: input
+    id: os
+    attributes:
+      label: Host OS
+      placeholder: "e.g. Windows Server 2022, Windows 11 Pro 24H2"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: hosting
+    attributes:
+      label: How is this server run?
+      options:
+        - I run the machine myself
+        - Managed/rented hosting
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Be specific — exact commands, the settings you changed, and what the players did.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What actually happened
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: |
+        Paste or attach the relevant excerpts from the server log and the game's own log. Redact passwords and addresses you would rather not publish.
+      render: text
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmations
+      options:
+        - label: I've searched existing issues for a duplicate
+          required: true
+        - label: This is a WaygateServer bug, not a hosting-provider support request
+          required: true
+        - label: I've removed passwords and anything else private from the logs I attached
+          required: true

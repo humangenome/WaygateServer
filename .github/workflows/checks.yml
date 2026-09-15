@@ -1,0 +1,43 @@
+name: Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # The release gate only fires on a tag. This catches drift that opens
+    # between releases, or a commit made directly on this repo.
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assert version consistency
+        run: tools/ci/assert-version.sh
+
+      # Every released section must survive extraction and the body lint, so a
+      # broken section is caught on the commit that writes it rather than on
+      # the tag that publishes it.
+      - name: Extract and lint every released CHANGELOG section
+        run: |
+          set -euo pipefail
+          versions=$(sed -nE 's/^## \[([0-9]+\.[0-9]+\.[0-9]+)\].*/\1/p' CHANGELOG.md)
+          if [ -z "${versions}" ]; then
+            echo "no released versions in CHANGELOG.md yet — nothing to lint"
+            exit 0
+          fi
+          for v in ${versions}; do
+            echo "::group::${v}"
+            tools/ci/extract-changelog.sh "${v}" "/tmp/body-${v}.md"
+            tools/ci/lint-release-notes.sh "/tmp/body-${v}.md" "${v}"
+            echo "::endgroup::"
+          done
+
+      - name: Shell scripts parse clean
+        run: |
+          for f in tools/ci/*.sh; do bash -n "$f"; echo "OK $f"; done
