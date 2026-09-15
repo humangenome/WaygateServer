@@ -11,6 +11,34 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-09-15
+
+### Server
+
+#### Added
+
+- `World/LockBuildingsToOwner`: Lock Buildings to Owner, written to the world on every start
+  like the other world settings.
+- `World/EnableChat`: set it to `false` and the server drops player chat (typed lines and
+  direct messages) before it is relayed. Server and quest lines still show.
+
+#### Changed
+
+- The server's own placeholder character no longer appears in anyone's Social tab, neither in
+  the server list nor in the party list.
+- The party every player lands in is named after the server (`Host/ServerName`) instead of
+  "Server's Party".
+
+### Client
+
+#### Changed
+
+- Starting Dimraeth from Steam after a Waygate session opens the plain game again. The join the
+  launcher set up is used once; it no longer replays on every launch, so Steam lobbies with
+  friends work exactly as before.
+- While connected through Waygate, Multiplayer Settings shows Lobby Type: Public instead of
+  Friends Only.
+
 ## [0.1.3] - 2026-09-15
 
 ### Client
