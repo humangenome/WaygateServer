@@ -26,6 +26,7 @@ reader never sees a half-written document.
   "server_name": "Waygate Lab",
   "uptime_seconds": 412,
   "written": "2026-09-15T18:41:02.1234567Z",
+  "map_feed": true,
   "roster": ["Wanderer"]
 }
 ```
@@ -40,6 +41,7 @@ reader never sees a half-written document.
 | `world` / `server_name` | The world save being hosted and the name advertised over A2S |
 | `uptime_seconds` | Seconds since the host reached `HOSTING` |
 | `written` | UTC timestamp of this snapshot |
+| `map_feed` | `true` when this host can write the map feed described below (absent on older hosts) |
 | `roster` | Display names of connected players, from the replicated player name |
 
 `boot-report.txt` in the same folder is the human-readable version of `verdict` with a one-line
