@@ -11,6 +11,23 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-09-15
+
+### Server
+
+#### Fixed
+
+- The server's placeholder character no longer takes a player seat. A 4-slot server admitted 3
+  players; every slot is a player's now.
+- Players are no longer put into the placeholder character's party. The first player to join
+  leads the party (named after the server), everyone after joins them, and when the leader logs
+  off the game hands the party to the next member. The placeholder character is in no party at all.
+- The player count in the status file stayed one low after a refused join. Fixed.
+
+### Client
+
+No change; the package is rebuilt so both halves carry the same version.
+
 ## [0.1.4] - 2026-09-15
 
 ### Server
