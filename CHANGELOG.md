@@ -11,6 +11,27 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-09-16
+
+### Server
+
+#### Added
+
+- `kill <player>` in `commands.txt` and the admin console, for a player stuck in geometry or a broken state.
+
+#### Changed
+
+- The server no longer has a character of its own. Nothing is spawned for it: it takes no seat, is in no party or player list, keeps no area awake and is not written to the world save. The world is loaded by the server itself at start; a first start takes about the same time as before. Setting `Host/HostCharacter = true` restores the previous placeholder character.
+- The customer console no longer shows the host's internal file and protocol names, nor the game's video-shader warnings printed on every start.
+
+#### Fixed
+
+- Sleeping works. When every connected player is in a bed the night passes. Before this release the server counted itself as an awake player and the night never came.
+
+### Client
+
+No change; the package is rebuilt so both halves carry the same version.
+
 ## [0.2.0] - 2026-09-16
 
 ### Server
