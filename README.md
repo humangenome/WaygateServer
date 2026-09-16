@@ -11,7 +11,7 @@
 
 # WaygateServer
 
-Runs a [Dimraeth](https://store.steampowered.com/app/2402680/) world as a dedicated server on a Windows machine. Players join it by address through the [Waygate app](https://github.com/HumanGenome/Waygate). This repo is for the person running the server.
+[Dimraeth](https://store.steampowered.com/app/2402680/) has no dedicated server. WaygateServer runs the game as one on a Windows machine, and players join it by IP and port through the [Waygate app](https://github.com/HumanGenome/Waygate). This repo is for the person running the server.
 
 ## What it does
 
