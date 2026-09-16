@@ -18,7 +18,7 @@
 - Runs Dimraeth with no screen, no desktop session and no Steam login
 - Creates and saves the world on the host
 - Takes direct connections on a UDP port
-- Its own host character is hidden from players and takes no seat
+- No character of its own: nothing is spawned for the server, so it takes no seat, leads no party and is in no list
 - Answers Source server query on the port above the gameplay port
 - Optional join password
 - Up to 8 players, the game's own limit
