@@ -11,6 +11,23 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-09-16
+
+### Server
+
+No change; the package is rebuilt so both halves carry the same version.
+
+### Client
+
+#### Added
+
+- The game's version in the bottom-right corner now carries the Waygate version beside it.
+
+#### Fixed
+
+- The Console tab is in the top bar. 0.2.1 built it but did not show it.
+- The Mods tab says once, not twice, that a server needs no client mods.
+
 ## [0.2.1] - 2026-09-16
 
 ### Server
