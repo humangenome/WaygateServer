@@ -11,6 +11,31 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.1.7] - 2026-09-16
+
+### Server
+
+#### Fixed
+
+- The host reads the world file's save version before the game's loader does. A world written by
+  another game build is left untouched and the server refuses to start, with the reason in
+  `boot-report.txt` and `status.json`, instead of the game moving the world to Recovery and starting
+  a fresh one.
+- The game's own quit path is refused on a host. The game reaches it when a connected player's XP
+  state fails validation; on a headless server that was the process ending.
+
+#### Changed
+
+- `status.json` carries `detail`, `save_failure`, `world_file_version` and `game_world_file_version`,
+  and is written on a failed start too.
+- The server zip no longer ships the generated interop assemblies. BepInEx builds them from the game
+  files on the first boot, about a minute longer once, and keeps them. The Unity base libraries ship
+  in the zip, so no download is needed.
+
+### Client
+
+No change; the package is rebuilt so both halves carry the same version.
+
 ## [0.1.6] - 2026-09-16
 
 ### Server
