@@ -11,6 +11,27 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.1.6] - 2026-09-16
+
+### Server
+
+#### Fixed
+
+- The join password is now checked. A server with a password admitted any client that reached it:
+  the game only ever compared the password inside its Steam lobby, which Waygate does not use. The
+  app now sends the password with the connection and the server refuses a wrong or missing one with
+  "Wrong password."
+
+### Client
+
+#### Fixed
+
+- The app presents the server's password on connect. A refused join reports the server's reason in
+  the connection status instead of waiting for the timeout.
+
+An app that has not updated yet cannot join a passworded server until it updates itself on its next
+start. Servers without a password are not affected.
+
 ## [0.1.5] - 2026-09-15
 
 ### Server
