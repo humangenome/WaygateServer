@@ -57,6 +57,9 @@ with `#` are ignored.
 | `shutdown` (alias `stop`) | Save, then exit the process cleanly |
 | `restart` | Save, then exit; the supervisor that started the host is expected to start it again |
 | `kick <name-or-clientId>` | Disconnect one player, matched by display name first, then by Netcode client id |
+| `mapdump` | Write `mapdump.json` (every map asset with its bounds and scale, every landmark, map crystal and scene link) and the game's walkability grids as `mask-*.pgm` files into the waygate directory. A one-off used to draw base maps; it takes about two seconds |
+| `tiledump` | `mapdump` plus the list of tilemaps the game holds (their cells are not readable in this build) |
+| `mapfeed on` / `mapfeed off` | Force the map feed below on regardless of the `map-wanted` marker, or hand control back to the marker |
 
 Because the file is consumed whole, write it in one go (write to a temp name and rename) rather
 than appending lines to a file the host may already be reading.
@@ -64,6 +67,54 @@ than appending lines to a file the host may already be reading.
 A command file that is already there when the host boots is deleted unread and noted in the
 log: it was written for a previous run, and a stale `shutdown` must never stop the server that
 has just come up.
+
+## map.json (the map feed) and map-wanted
+
+The host can describe the live world for a map: every connected player with name, level, health,
+area and position, the regions and Waygates each has discovered, players last seen offline, boss
+fights in progress, temporary portals, map crystals with their collected state, and the Sanctum's
+buildings, farm plots and player-built waygates.
+
+It writes that to `map.json` in the waygate directory every `Map/FeedIntervalSeconds` (default 5)
+**only while something is reading it**: touch a file named `map-wanted` in the same directory and
+the feed runs until `Map/WantedSeconds` (default 45) pass without another touch. Nobody looking
+costs one file-time check per tick and nothing is written. `Map/FeedEnable = false` turns the feed
+off entirely. A `map.json` left over from a previous run is deleted at boot.
+
+```json
+{
+  "written": "2026-09-16T18:00:18.6202100Z",
+  "product": "Waygate 0.1.6",
+  "game_version": "eDev 0.107.7689",
+  "interval": 5,
+  "server_name": "Compass Lab",
+  "world": { "name": "CompassLab", "share_regions": false, "share_waygates": true, "explored": [] },
+  "players": [
+    { "name": "Compass One", "level": 1, "hp": 220, "hp_max": 220, "dead": false, "scene": "EarlwoodVillage",
+      "x": -27.991, "y": -372, "sleeping": false, "teleporting": false, "spectating": false,
+      "race": "1", "class": "4", "regions": [], "waygates": ["Dark Caverns"] }
+  ],
+  "offline": [], "bosses": [], "teleporters": [],
+  "crystals": [ { "id": "LostCavernsWest", "collected": false } ],
+  "buildings": [], "farm_plots": [], "base_waygates": []
+}
+```
+
+| Field | Meaning |
+|---|---|
+| `world.explored` | Union of every player's discovered regions (the game's `MapFragmentName` values) plus the Sanctum's story-revealed regions |
+| `world.share_regions` | The world's "share map fragment unlocks" setting; when false, each player's own `regions` list is the truth for them |
+| `players[].scene` | The game's `Areas.Scene` name; `x`/`y` are plain world units (the map plane) |
+| `players[].regions` / `waygates` | What that player has discovered, as the game reports it (effective, so shared unlocks are included) |
+| `offline[]` | Players in the world save who are not connected: name, last scene and position, `last_played` as Unix seconds |
+| `bosses[]` | Boss fights in progress: name, health, max health (the game gives no position) |
+| `teleporters[]` | Temporary player portals: from scene/point, to scene/point, seconds remaining |
+| `crystals[]` | Every map crystal in the world and whether it has been collected |
+| `buildings[]` | Sanctum build items: type, position, rotation, owner's display name |
+
+Positions are world coordinates. `mapdump.json` records how each in-game map projects them:
+every map has `scale (4, 4)`, so a landmark's pixel on a map picture is
+`((x - map_bottom_left.x) * 4, (map_top_right.y - y) * 4)` from the top-left corner.
 
 ## A2S (Source query) on port + 1
 
@@ -77,5 +128,5 @@ refreshes, so it never touches game objects and a flood of queries cannot stall 
 
 - No remote console: the game has no command surface to expose, and a fake one would be a
   liability. When the host grows an admin plane the launcher's Console tab comes back with it.
-- No roster history or map: `status.json` is a live snapshot, not a log. Keep your own history by
+- No roster history: `status.json` and `map.json` are live snapshots, not logs. Keep your own history by
   sampling it.
