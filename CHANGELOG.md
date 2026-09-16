@@ -11,6 +11,30 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-09-16
+
+### Server
+
+#### Added
+
+- Admin plane: Source RCON on game port + 3 and a signed HTTP API on game port + 4 (`WaygateAdmin.dll`, new). One password for both, set in `BepInEx/config/com.humangenome.waygate.admin.cfg`; empty keeps both listeners off.
+- Bans and an allow list keyed on the player's character, with the connecting address as a backstop. `bans.json` and `allowlist.json` live beside `status.json` and survive restarts.
+- Console: joins, leaves, chat, deaths, saves and admin actions, 2,000 lines in memory, served by `/api/v1/console/recent` and streamed by `/api/v1/console/stream`.
+- Commands: players, kick, ban, unban, bans, allow, deny, allowlist, say, announce, motd, save, time, weather, heal, revive, respawn, kill, give, god, tp, spawn, quests, quest reset, respawnmonsters, lock, chat, shutdown, restart, cancel.
+- Mods. The host loads BepInEx plugins from `BepInEx\plugins\mods\<id>\` when the folder carries a `waygate-mod.json` (id, version, side, the plugin's sha256). `status.json` lists every mod and whether it loaded. A2S_RULES on port + 1 lists the client-side mods a server requires, and a client that does not carry that exact set is refused with the reason. Two server mods are published: Server Multipliers and Message of the Day.
+- A map feed. While a reader touches `map-wanted` in the waygate directory, the host writes `map.json` every five seconds: every connected player with name, level, health, area and position, the regions and waystones each has found, players last seen, boss fights, temporary portals, map crystals, and the Sanctum's buildings. Nobody reading, nothing written; `status.json` carries `map_feed: true` when the feed exists. New commands: `mapdump` writes the map assets, landmarks and walkability grids the base maps are drawn from; `mapfeed on|off` forces the feed.
+
+#### Fixed
+
+- `commands.txt` is taken by rename before it is read, so a line written between the read and the delete is never lost.
+
+### Client
+
+#### Added
+
+- The Console tab is shown. It uses the selected server's admin port, asks for the admin password once per server, and reads long replies whole.
+- Mods. When a server requires client mods, Waygate installs them from the Waygate mod registry before the game starts: each release is checked against the registry's signature and two hashes, installed into a folder for that server only, and you are asked once per server. The Mods tab shows what a server requires and what is installed for it. A plain Steam launch never loads them. A mod withdrawn from the registry is removed on the next start.
+
 ## [0.1.7] - 2026-09-16
 
 ### Server
