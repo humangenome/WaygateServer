@@ -11,6 +11,21 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.2.3] - 2026-09-16
+
+### Server
+
+#### Fixed
+
+- Two signed reads of the admin web API in the same second were byte-identical and the second was
+  refused as a replay, which made a panel kick or ban that follows a roster poll fail silently. Reads are
+  no longer single-use; writes still are. A refused call is named in the host log and the console feed
+  with its reason.
+
+### Client
+
+No change; the package is rebuilt so both halves carry the same version.
+
 ## [0.2.2] - 2026-09-16
 
 ### Server
