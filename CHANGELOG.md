@@ -11,6 +11,24 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-09-16
+
+### Server
+
+#### Added
+
+- The server has a web page of its own on game port + 5: the live map of the world with everyone's
+  position, the console, who is playing, and Discord alerts the server posts itself. The map is there
+  for anyone with the address; the console and the controls unlock with the admin password, which
+  stays in the browser it was typed in. Settings under `[Web]` and `[Alerts]` in the admin config; the
+  map pictures ship in `BepInEx\plugins\WaygateAdmin\www\maps`. See docs/web.md.
+- The map is drawn from the game's own painted map, one picture per area, with the walkable ground and
+  the places named.
+
+### Client
+
+No change; the package is rebuilt so both halves carry the same version.
+
 ## [0.2.3] - 2026-09-16
 
 ### Server
