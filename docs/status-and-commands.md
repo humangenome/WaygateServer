@@ -36,7 +36,7 @@ reader never sees a half-written document.
 | `product` | Host mod name and version |
 | `game_version` | The game's own version string |
 | `port` / `query_port` | Gameplay UDP port and the A2S port (always `port + 1`) |
-| `players` / `max_players` | Connected players (the hidden host character is never counted) and the slot cap |
+| `players` / `max_players` | Connected players and the slot cap. The host has no character of its own, so nothing but real players is ever counted |
 | `world` / `server_name` | The world save being hosted and the name advertised over A2S |
 | `uptime_seconds` | Seconds since the host reached `HOSTING` |
 | `written` | UTC timestamp of this snapshot |
@@ -57,6 +57,7 @@ with `#` are ignored.
 | `shutdown` (alias `stop`) | Save, then exit the process cleanly |
 | `restart` | Save, then exit; the supervisor that started the host is expected to start it again |
 | `kick <name-or-clientId>` | Disconnect one player, matched by display name first, then by Netcode client id |
+| `kill <name-or-clientId>` | Kill one player the way lethal damage would (health to zero, the game's own death handling on every client); the player respawns from their own death screen. For a player stuck in geometry or a broken state |
 
 Because the file is consumed whole, write it in one go (write to a temp name and rename) rather
 than appending lines to a file the host may already be reading.
