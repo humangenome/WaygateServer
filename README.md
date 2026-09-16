@@ -44,8 +44,11 @@
 |---|---|---|
 | base (default `15569`) | UDP | Gameplay, the port players connect to |
 | base + 1 (default `15570`) | UDP | Server query (Source A2S) |
+| base + 3 (default `15572`) | TCP | Source RCON, once an admin password is set |
+| base + 4 (default `15573`) | TCP | The admin API the Waygate app's Console tab uses, once an admin password is set |
+| base + 5 (default `15574`) | TCP | The server's own web page: live map, console, players, alerts ([docs/web.md](docs/web.md)) |
 
-Both must be open on the host firewall and forwarded if the server sits behind NAT.
+The two UDP ports must be open on the host firewall and forwarded if the server sits behind NAT. Open the TCP ports only for the people who should reach them.
 
 ## Setup
 
@@ -62,6 +65,10 @@ Both must be open on the host firewall and forwarded if the server sits behind N
 5. Hand players the address as `ip:port`. They add it in the Waygate app and press Connect.
 
 Running two servers on one machine: give each its own copy of the game folder (a junction works) and its own port, and pass `--waygate-dir=<folder>` so their saves and status files never share a path.
+
+## The web page
+
+Open `http://<server ip>:<game port + 5>/` for the live map of the world with everyone's position, the console, who is playing and Discord alerts. The map is there for anyone with the address; the console and the controls unlock with the admin password. Details: [docs/web.md](docs/web.md).
 
 ## Running it from a panel or a script
 
