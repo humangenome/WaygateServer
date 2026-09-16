@@ -38,7 +38,7 @@ Players use the Waygate app; hosts use this. Start here if you are running the s
 | OS | Windows 10, Windows 11, or Windows Server |
 | Game files | A Dimraeth installation on the host (about 6 GB) |
 | Ports | Two UDP ports — the gameplay port, and the port immediately above it for server query |
-| Hardware | No GPU required; about 2 GB of RAM per server |
+| Hardware | No GPU required; plan on 4 to 8 GB of RAM per server (the game simulates the whole world even with nobody online) |
 
 ## Ports
 
