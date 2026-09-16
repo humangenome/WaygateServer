@@ -11,19 +11,17 @@
 
 # WaygateServer
 
-The server half of [Waygate](https://github.com/HumanGenome/Waygate) — the piece that runs on a host machine and keeps a [Dimraeth](https://store.steampowered.com/app/2402680/) world online around the clock.
-
-Players use the Waygate app; hosts use this. Start here if you are running the server, and at the [Waygate hub](https://github.com/HumanGenome/Waygate) if you are joining one.
+Runs a [Dimraeth](https://store.steampowered.com/app/2402680/) world as a dedicated server on a Windows machine. Players join it by address through the [Waygate app](https://github.com/HumanGenome/Waygate). This repo is for the person running the server.
 
 ## What it does
 
-- Runs Dimraeth as a headless host — no graphics card, no desktop session, no logged-in Steam account
-- Owns the world. The world is created and saved on the host, and it stays there when players leave
-- Accepts direct connections on a normal UDP port, so players reach it by address instead of a Steam friend invite
-- Hides its own host character: it takes no slot, is invisible to players and never gets in the way
-- Answers Source server query on the port above the gameplay port, so server lists, monitoring and bots can read status and player count
-- Takes a join password, if you set one
-- Holds up to eight players, matching Dimraeth's own limit
+- Runs Dimraeth with no screen, no desktop session and no Steam login
+- Creates and saves the world on the host
+- Takes direct connections on a UDP port
+- Its own host character is hidden from players and takes no seat
+- Answers Source server query on the port above the gameplay port
+- Optional join password
+- Up to 8 players, the game's own limit
 
 ## What it does not do
 
@@ -42,11 +40,9 @@ Players use the Waygate app; hosts use this. Start here if you are running the s
 
 ## Ports
 
-Everything derives from one number, so you only ever choose the gameplay port.
-
 | Port | Protocol | Used for |
 |---|---|---|
-| base (default `15569`) | UDP | Gameplay — the port players connect to |
+| base (default `15569`) | UDP | Gameplay, the port players connect to |
 | base + 1 (default `15570`) | UDP | Server query (Source A2S) |
 
 Both must be open on the host firewall and forwarded if the server sits behind NAT.
