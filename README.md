@@ -19,7 +19,8 @@
 - Creates and saves the world on the host
 - Takes direct connections on a UDP port
 - No character of its own: nothing is spawned for the server, so it takes no seat, leads no party and is in no list
-- Serves its own web page: the live map of the world with every player's position, the console, who is playing, Discord alerts
+- Serves its own web page: the world map drawn from the game's own pixels, every player's position every five seconds, a fog of war over ground nobody has found yet, the console, who is playing, Discord alerts
+- Loads server mods from a folder and tells the Waygate app which client mods a server needs, so players get them on connect
 - Source RCON and a signed HTTP API for admin tools, once an admin password is set
 - Bans and an allow list keyed on the player's character and address, kept across restarts
 - Answers Source server query on the port above the gameplay port
@@ -77,10 +78,14 @@ Open `http://<server ip>:<game port + 5>/` in a browser. The server serves the p
   <img src="docs/img/web-map.png" alt="The server's web page: the Earlwood map with a player's live position" width="860">
 </p>
 
-- **Map**: the world as the game draws it, one tab per area, with every connected player's position and name, the Waygates and map crystals they have found, boss fights, portals and the Sanctum's buildings. Scroll to zoom in to the game's own pixels.
+- **Map**: the world from the game's own pixels, one tab per area, sharp all the way in to the game's closest zoom. Every connected player's position and name, refreshed every five seconds; the Waygates and map crystals they have found; boss fights, portals and the Sanctum's buildings. The layers menu picks what is drawn, and its fog of war hides every region no player has discovered yet, the game's own fog, either for anyone's discoveries or one player's.
 - **Console**: the server's live log and a command line, with the common commands one click away.
 - **Players**: everyone connected, with level, area and time on; remove or block a player.
 - **Alerts**: Discord messages the server posts itself for joins and leaves, deaths, a full server, the world coming up and a scheduled stop.
+
+<p align="center">
+  <img src="docs/img/web-fog.png" alt="The map with the fog of war on: only the village any player has discovered is drawn, the rest of Earlwood is under the game's fog" width="860">
+</p>
 
 <p align="center">
   <img src="docs/img/web-console.png" alt="The console tab: the live log, the command line and the quick actions" width="860">
