@@ -19,6 +19,9 @@
 - Creates and saves the world on the host
 - Takes direct connections on a UDP port
 - No character of its own: nothing is spawned for the server, so it takes no seat, leads no party and is in no list
+- Serves its own web page: the live map of the world with every player's position, the console, who is playing, Discord alerts
+- Source RCON and a signed HTTP API for admin tools, once an admin password is set
+- Bans and an allow list keyed on the player's character and address, kept across restarts
 - Answers Source server query on the port above the gameplay port
 - Optional join password
 - Up to 8 players, the game's own limit
@@ -35,7 +38,7 @@
 |---|---|
 | OS | Windows 10, Windows 11, or Windows Server |
 | Game files | A Dimraeth installation on the host (about 6 GB) |
-| Ports | Two UDP ports — the gameplay port, and the port immediately above it for server query |
+| Ports | Two UDP ports, the gameplay port and the one above it for server query; three TCP ports above those for RCON, the admin API and the web page, opened only for the people who should reach them |
 | Hardware | No GPU required; plan on 4 to 8 GB of RAM per server (the game simulates the whole world even with nobody online) |
 
 ## Ports
@@ -68,7 +71,22 @@ Running two servers on one machine: give each its own copy of the game folder (a
 
 ## The web page
 
-Open `http://<server ip>:<game port + 5>/` for the live map of the world with everyone's position, the console, who is playing and Discord alerts. The map is there for anyone with the address; the console and the controls unlock with the admin password. Details: [docs/web.md](docs/web.md).
+Open `http://<server ip>:<game port + 5>/` in a browser. The server serves the page itself; nothing else is installed and it works with no internet.
+
+<p align="center">
+  <img src="docs/img/web-map.png" alt="The server's web page: the Earlwood map with a player's live position" width="860">
+</p>
+
+- **Map**: the world as the game draws it, one tab per area, with every connected player's position and name, the Waygates and map crystals they have found, boss fights, portals and the Sanctum's buildings. Scroll to zoom in to the game's own pixels.
+- **Console**: the server's live log and a command line, with the common commands one click away.
+- **Players**: everyone connected, with level, area and time on; remove or block a player.
+- **Alerts**: Discord messages the server posts itself for joins and leaves, deaths, a full server, the world coming up and a scheduled stop.
+
+<p align="center">
+  <img src="docs/img/web-console.png" alt="The console tab: the live log, the command line and the quick actions" width="860">
+</p>
+
+Anyone with the address sees the map and who is playing. The console, the player controls and the alerts unlock with the admin password (`Password` under `[Admin]` in `BepInEx\config\com.humangenome.waygate.admin.cfg`), the same one RCON and the Waygate app's Console tab use; it stays in the browser it was typed in and signs each action instead of being sent. `PublicMap = false` under `[Web]` puts the map behind the password too; `Enable = false` switches the page off. The page cannot say the server is down: a message the server sends cannot arrive once the server is gone. Settings, sharing and what it cannot do: [docs/web.md](docs/web.md).
 
 ## Running it from a panel or a script
 
@@ -92,4 +110,4 @@ Waygate is an independent community project. It is not affiliated with, endorsed
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE).

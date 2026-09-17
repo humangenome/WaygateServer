@@ -2,16 +2,36 @@
 
 Every Waygate server serves a page about itself on **game port + 5** (`15574` for a server on the default `15569`). It runs inside the host process and needs nothing installed: open `http://<server ip>:<game port + 5>/` in a browser.
 
+<p align="center">
+  <img src="img/web-map.png" alt="The map tab: Earlwood with a player's live position" width="860">
+</p>
+
 ## What is on it
 
 | Tab | Who sees it | What it shows |
 |---|---|---|
-| Map | anyone with the address | The world as the game draws it, one tab per area (Earlwood, Lost Caverns, Sanctum, Goblin Caves), with every connected player's live position and name, the Waygates and map crystals they have found, boss fights, temporary portals and the Sanctum's buildings. Unexplored ground is veiled until someone finds its crystal. |
-| Console | the owner | The server's live log (joins, leaves, chat, deaths, saves, admin actions, the game's own warnings) and a command line. The quick actions run the common commands; `help` lists all 34. |
+| Map | anyone with the address | The world as the game draws it, one tab per area (Earlwood, Lost Caverns, Sanctum, Goblin Caves), with every connected player's live position and name, the Waygates and map crystals they have found, boss fights, temporary portals and the Sanctum's buildings. The layers button can veil ground nobody has explored yet. |
+| Console | the owner | The server's live log (joins, leaves, chat, deaths, saves, admin actions, the game's own warnings) and a command line. The quick actions run the common commands; `help` lists them all. |
 | Players | anyone; controls for the owner | Everyone connected, with level, area and time on. The owner can remove or block a player and manage the block list. |
 | Alerts | the owner | Discord messages the server posts itself: joins and leaves, deaths, the server filling up, the world coming up, a scheduled stop, and an optional round-up. |
 
 The rail on the right lists who is playing on every tab; on a phone it is a sheet at the bottom.
+
+<p align="center">
+  <img src="img/web-console.png" alt="The console tab, unlocked: the live log, a command and its answer, the quick actions" width="860">
+</p>
+
+<p align="center">
+  <img src="img/web-players.png" alt="The players tab with the block list" width="860">
+</p>
+
+## The map, close up
+
+The map is the game's own map art at the game's own pixel density (4 per world unit), served as tiles. Zooming in goes to the same 4x the game's map allows, drawn as whole pixel blocks the way the game draws it; zooming out uses pre-scaled copies, so the picture is never stretched or blurred at any level. The layers button hides and shows each kind of marker and a veil over unexplored ground (off by default).
+
+<p align="center">
+  <img src="img/web-map-zoom.png" alt="Earlwood Village at the game's full zoom" width="860">
+</p>
 
 ## The password
 
