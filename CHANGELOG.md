@@ -11,6 +11,19 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-09-16
+
+### Server
+
+#### Fixed
+
+- The map on the server's web page draws its full-zoom level pixel for pixel. It was being smoothed by a
+  fraction of a pixel, which softened every detail at the closest zoom.
+
+### Client
+
+No change; the package is rebuilt so both halves carry the same version.
+
 ## [0.3.1] - 2026-09-16
 
 ### Server
