@@ -27,7 +27,7 @@ The rail on the right lists who is playing on every tab; on a phone it is a shee
 
 ## The map, close up
 
-The map is the game's own map art at the game's own pixel density (4 per world unit), served as tiles. Zooming in goes to the same 4x the game's map allows, drawn as whole pixel blocks the way the game draws it; zooming out uses pre-scaled copies, so the picture is never stretched or blurred at any level. The layers button hides and shows each kind of marker and a veil over unexplored ground (off by default).
+The map is the world as the game itself draws it: a capture of the loaded world through the game's own renderer, cut into tiles. The package carries it at up to 8 pixels per world unit. Zooming in stops at 16 screen pixels per unit, the game's own closest zoom, where those pixels are doubled cleanly; a picture at exactly its own size is drawn pixel for pixel, and zooming out uses pre-scaled copies, so nothing is stretched or blurred at any level. The layers button hides and shows each kind of marker and a veil over unexplored ground (off by default).
 
 <p align="center">
   <img src="img/web-map-zoom.png" alt="Earlwood Village at the game's full zoom" width="860">
@@ -65,7 +65,7 @@ RoundupHours = 0     # 0 = never
 
 ## Where the pictures come from
 
-The map is the game's own map art, placed by the area rectangles the running game reports, tiled for the browser and shipped in the release beside the plugin (`BepInEx\plugins\WaygateAdmin\www\maps`). Live positions come from the host's own memory every five seconds while a page is open, and nothing is written to disk for it.
+The map is drawn by the game: the loaded world rendered through the game's own camera at noon, with monsters, weather and screen effects off, placed by the area rectangles the running game reports, tiled for the browser and shipped in the release beside the plugin (`BepInEx\plugins\WaygateAdmin\www\maps`). Live positions come from the host's own memory every five seconds while a page is open, and nothing is written to disk for it.
 
 ## What it is not
 
