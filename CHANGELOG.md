@@ -11,6 +11,29 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.3] - 2026-09-17
+
+### Server
+
+#### Added
+
+- Fog of war on the web page's map, the game's own. `FogOfWar = world` under `[Web]` shows only what
+  the players have uncovered; `off`, the default, shows the whole map. Once the page is unlocked, the
+  map's layers menu switches it. An area's name stays off the map while none of it is discovered.
+
+#### Changed
+
+- The map's edge follows the capture itself instead of the game's painted outline. Rivers and lakes
+  the outline hid are drawn, cave passages are whole, water fades out at the edge of the known world
+  instead of stopping at a line, and the backdrop pieces the game keeps outside the map are left out.
+- Zooming the map is smoother: pictures are decoded off the page's main thread, the level on screen
+  stays until the next one has arrived, and the next zoom step's tiles are fetched ahead. The page's
+  server keeps a connection open between requests instead of closing it after each one.
+
+### Client
+
+No change; the package is rebuilt so both halves carry the same version.
+
 ## [0.3.2] - 2026-09-16
 
 ### Server

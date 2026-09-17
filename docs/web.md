@@ -27,7 +27,7 @@ The rail on the right lists who is playing on every tab; on a phone it is a shee
 
 ## The map, close up
 
-The map is the world as the game itself draws it: a capture of the loaded world through the game's own renderer, cut into tiles. The package carries it at up to 8 pixels per world unit. Zooming in stops at 16 screen pixels per unit, the game's own closest zoom, where those pixels are doubled cleanly; a picture at exactly its own size is drawn pixel for pixel, and zooming out uses pre-scaled copies, so nothing is stretched or blurred at any level. The layers button hides and shows each kind of marker and a veil over unexplored ground (off by default).
+The map is the world as the game itself draws it: a capture of the loaded world through the game's own renderer, cut into tiles. The package carries it at up to 8 pixels per world unit. Zooming in stops at 16 screen pixels per unit, the game's own closest zoom, where those pixels are doubled cleanly; a picture at exactly its own size is drawn pixel for pixel, and zooming out uses pre-scaled copies, so nothing is stretched or blurred at any level. The layers button hides and shows each kind of marker, and switches the fog of war: the game's own fog over ground no player has discovered yet, off unless `FogOfWar = world` is set (below); the switch works once the page is unlocked.
 
 <p align="center">
   <img src="img/web-map-zoom.png" alt="Earlwood Village at the game's full zoom" width="860">
@@ -52,6 +52,7 @@ Behind NAT, forward TCP `game port + 5` like the two UDP ports. The page is plai
 Enable = true        # serve the page
 Port = 0             # 0 = game port + 5
 PublicMap = true     # false = the map needs the password too
+FogOfWar = off       # world = ground no player has discovered yet is under the game's own fog
 WebRoot =            # optional folder overriding the page files, for editing the page
 
 [Alerts]
