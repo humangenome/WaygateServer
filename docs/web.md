@@ -10,7 +10,7 @@ Every Waygate server serves a page about itself on **game port + 5** (`15574` fo
 
 | Tab | Who sees it | What it shows |
 |---|---|---|
-| Map | anyone with the address | The world as the game draws it, one tab per area (Earlwood, Lost Caverns, Sanctum, Goblin Caves), with every connected player's live position and name, the Waygates and map crystals they have found, boss fights, temporary portals and the Sanctum's buildings. The layers button can veil ground nobody has explored yet. |
+| Map | anyone with the address | The world from the game's own pixels, one tab per area (Earlwood, Lost Caverns, Sanctum, Goblin Caves), with every connected player's live position and name (refreshed every five seconds), the Waygates and map crystals they have found, boss fights, temporary portals and the Sanctum's buildings. The layers button hides or shows each kind of marker and switches the fog of war on. |
 | Console | the owner | The server's live log (joins, leaves, chat, deaths, saves, admin actions, the game's own warnings) and a command line. The quick actions run the common commands; `help` lists them all. |
 | Players | anyone; controls for the owner | Everyone connected, with level, area and time on. The owner can remove or block a player and manage the block list. |
 | Alerts | the owner | Discord messages the server posts itself: joins and leaves, deaths, the server filling up, the world coming up, a scheduled stop, and an optional round-up. |
@@ -27,10 +27,18 @@ The rail on the right lists who is playing on every tab; on a phone it is a shee
 
 ## The map, close up
 
-The map is the world as the game itself draws it: a capture of the loaded world through the game's own renderer, cut into tiles. The package carries it at up to 8 pixels per world unit. Zooming in stops at 16 screen pixels per unit, the game's own closest zoom, where those pixels are doubled cleanly; a picture at exactly its own size is drawn pixel for pixel, and zooming out uses pre-scaled copies, so nothing is stretched or blurred at any level. The layers button hides and shows each kind of marker, and switches the fog of war: the game's own fog over ground no player has discovered yet, off unless `FogOfWar = world` is set (below); the switch works once the page is unlocked.
+The map is the world as the game itself draws it: a capture of the loaded world through the game's own renderer, one screen pixel per sprite pixel, cut into tiles. The package carries it at up to 8 pixels per world unit. Zooming in stops at 16 screen pixels per unit, the game's own closest zoom, where those pixels are doubled cleanly; a picture at exactly its own size is drawn pixel for pixel, and zooming out uses pre-scaled copies, so nothing is stretched or blurred at any level. The layers button hides and shows each kind of marker, and switches the fog of war: the game's own fog over ground no player has discovered yet, off unless `FogOfWar = world` is set (below); the switch works once the page is unlocked.
 
 <p align="center">
   <img src="img/web-map-zoom.png" alt="Earlwood Village at the game's full zoom" width="860">
+</p>
+
+## The fog of war
+
+The game hides a region on its own map until a player has set foot in it, one cut-out per region. The page can do the same: switch **Fog of war** on in the layers menu and every region nobody has discovered yet goes under the game's own fog, with its markers and name held back. The menu also picks whose discoveries count, anyone's or one named player's. It is off by default for the owner, and `FogOfWar = world` under `[Web]` makes it the page's starting state for everyone; the layers menu can still switch it once unlocked.
+
+<p align="center">
+  <img src="img/web-fog.png" alt="The fog of war on: the village a player has discovered is drawn, the rest of Earlwood is under the game's fog, and the layers menu lists whose discoveries count" width="860">
 </p>
 
 ## The password
@@ -52,7 +60,7 @@ Behind NAT, forward TCP `game port + 5` like the two UDP ports. The page is plai
 Enable = true        # serve the page
 Port = 0             # 0 = game port + 5
 PublicMap = true     # false = the map needs the password too
-FogOfWar = off       # world = ground no player has discovered yet is under the game's own fog
+FogOfWar = off       # world = the page starts with every region no player has discovered yet under the game's own fog
 WebRoot =            # optional folder overriding the page files, for editing the page
 
 [Alerts]
