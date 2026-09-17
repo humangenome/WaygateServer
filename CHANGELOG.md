@@ -11,6 +11,20 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.5] - 2026-09-17
+
+### Client
+
+#### Fixed
+
+- The Console tab sends a command on the first Enter or Send. A command typed in full used to open the
+  suggestion list, so the first Enter or click only closed it and nothing was sent. Enter runs the command,
+  Tab completes one, and a server that never answers is reported after 15 seconds.
+
+### Server
+
+No change; the package is rebuilt so both halves carry the same version.
+
 ## [0.3.4] - 2026-09-17
 
 ### Server
