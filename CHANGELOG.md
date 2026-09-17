@@ -11,6 +11,19 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.4] - 2026-09-17
+
+### Server
+
+#### Fixed
+
+- The map's two most zoomed-out levels were cut one pixel off in size, which smeared them by up to a
+  pixel across the whole map. They are exact halves of the level above now.
+
+### Client
+
+No change; the package is rebuilt so both halves carry the same version.
+
 ## [0.3.3] - 2026-09-17
 
 ### Server
