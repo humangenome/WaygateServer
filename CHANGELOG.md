@@ -11,6 +11,29 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-09-16
+
+### Server
+
+#### Changed
+
+- The world map on the server's web page is drawn from the game's own pixels: the server captures the
+  loaded world through the game's renderer, so every zoom level up to the game's own maximum shows the
+  same picture a player sees. The land follows the outline of the game's map, lit evenly.
+- The console speaks the start-up in plain words (creating or starting the world, world loaded, hosting
+  on the port) and leaves out the loader's own lines and the game's headless start-up errors. Refusals
+  of admin requests still show, with their reason.
+
+#### Fixed
+
+- Commands typed on the web page, and their answers, stay in the console when the filter changes.
+- "Send a test" on the alerts tab reports a failed post as failed.
+- A refused request is printed once.
+
+### Client
+
+No change; the package is rebuilt so both halves carry the same version.
+
 ## [0.3.0] - 2026-09-16
 
 ### Server
