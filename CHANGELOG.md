@@ -11,6 +11,19 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.7] - 2026-09-18
+
+### Server
+
+#### Fixed
+
+- Fixed melee attacks failing to damage players on servers without a host character by initializing the game's spell definitions before combat begins.
+- Preserved the game's normal damage, targeting, and friendly-fire rules.
+
+### Client
+
+No client gameplay change. Existing 0.3.6 clients can join updated servers.
+
 ## [0.3.6] - 2026-09-17
 
 ### Server
