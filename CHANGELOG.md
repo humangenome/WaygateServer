@@ -11,6 +11,20 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.6] - 2026-09-17
+
+### Server
+
+#### Fixed
+
+- Enemies on servers without a host character now keep their gameplay simulation active around connected players, restoring damage and normal combat.
+- Chests and defeated enemies can create item, gold, and rune drops without a host character. The game still controls loot ownership and pickup rules.
+- Fixed an error when enemies cast spells before any local player inventory has been initialized.
+
+### Client
+
+No gameplay change. Existing 0.3.5 clients can join updated servers.
+
 ## [0.3.5] - 2026-09-17
 
 ### Client
