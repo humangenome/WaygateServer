@@ -11,6 +11,19 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.10] - 2026-09-19
+
+### Server
+
+#### Fixed
+
+- Fixed a running mod going unlisted. A plugin left in the mods folder without its `waygate-mod.json` (a removal that could delete the manifest but not a dll another process still held open) was loaded all the same while `status.json` said `"mods":[]`. It is now listed as loaded, with the reason in `problem`, and the console says which mod it is and how to unload it. It is never part of the set a player's app is asked to install.
+- Fixed the console showing two lines when the server-list answer moves to a spare port. It shows one, in plain words; the host log keeps the detailed one.
+
+### Client
+
+No change; the app is rebuilt so both halves carry the same version.
+
 ## [0.3.9] - 2026-09-19
 
 ### Server
