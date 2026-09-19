@@ -11,6 +11,30 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.9] - 2026-09-19
+
+### Server
+
+#### Added
+
+- `status.json` carries `ports` (`game`, `query`, `rcon`, `http`, `web`; 0 = not listening) and `query_port` is the port the responder really has. The query answer's keywords carry the same (`query=`, `rcon=`, `http=`, `web=`), and the admin API and the `status` command report the real ports.
+- `last-shutdown.json` beside `status.json` records each `shutdown` or `restart`: when, why, and whether the world was saved first.
+
+#### Fixed
+
+- Fixed a server asked to shut down being left as a process Windows would never finish closing: it could not be ended, and it kept the server's query, RCON and admin API ports and its log file until the machine was restarted, so the next start ran with no console, no player list and no server-list answer. The server's own delayed exit ran the game engine's unload code after the engine's worker threads were gone. The server now ends itself without running that code, and it closes every listener the moment it is asked to quit.
+- Fixed a listener giving up when its usual port is already taken. The query responder tries game port + 1, then + 2 and + 6; RCON tries + 3, then + 6 and + 8; the admin API + 4, then + 7 and + 9; the web page + 5, then + 8 and + 9. A moved listener is named in the host log and the console, and a listener that finds no port says so and leaves the server running.
+
+### Client
+
+#### Added
+
+- `Waygate.Launcher.exe --probe <host:port> --report <file>` writes which query port answered and the console and admin API ports the server named.
+
+#### Fixed
+
+- Fixed the app losing a server whose listeners have moved: it asks the usual query port first and the two spare ones when that is silent, reads the console and admin API ports from the answer, and uses them for the Console tab and the status row. The mod check before a join asks all three query ports.
+
 ## [0.3.8] - 2026-09-18
 
 ### Server

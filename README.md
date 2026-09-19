@@ -52,7 +52,7 @@
 | base + 4 (default `15573`) | TCP | The admin API the Waygate app's Console tab uses, once an admin password is set |
 | base + 5 (default `15574`) | TCP | The server's own web page: live map, console, players, alerts ([docs/web.md](docs/web.md)) |
 
-The two UDP ports must be open on the host firewall and forwarded if the server sits behind NAT. Open the TCP ports only for the people who should reach them.
+The two UDP ports must be open on the host firewall and forwarded if the server sits behind NAT. Open the TCP ports only for the people who should reach them. A listener whose usual port is taken by another program moves to a spare port inside the same block of ten and says so ([docs/status-and-commands.md](docs/status-and-commands.md#when-a-port-is-taken)).
 
 ## Setup
 
