@@ -41,6 +41,10 @@ The game hides a region on its own map until a player has set foot in it, one cu
   <img src="img/web-fog.png" alt="The fog of war on: the village a player has discovered is drawn, the rest of Earlwood is under the game's fog, and the layers menu lists whose discoveries count" width="860">
 </p>
 
+## The live layers
+
+Beside the landmarks, the map draws what the world is doing: quests where their current step takes place, each boss's lair and how it fares, loot chests shut or opened with their refill clock and the players' storage, the named people and the village's works, and a World progress line that unfolds. `PublicLayers` under `[Web]` names which of those someone who has not unlocked the page sees (quests, bosses, people and progress unless you change it; `all` or `none` work too); a player's own quests are never shown to visitors. Unlocked with the password, the page shows every layer.
+
 ## The password
 
 The owner's parts unlock with the admin password: `Password` under `[Admin]` in `BepInEx\config\com.humangenome.waygate.admin.cfg`. It is the same password RCON and the Waygate app's Console tab use. Typed once, it stays in that browser (nowhere else) and signs every owner action the same way the app does; it is never sent as text. With no password set, the map and the player list still work and the owner parts say so.
@@ -61,6 +65,7 @@ Enable = true        # serve the page
 Port = 0             # 0 = game port + 5
 PublicMap = true     # false = the map needs the password too
 FogOfWar = off       # world = the page starts with every region no player has discovered yet under the game's own fog
+PublicLayers = quests,bosses,people,progress   # the live layers someone who has not unlocked the page sees; all, or none. Unlocked, the page shows every layer
 WebRoot =            # optional folder overriding the page files, for editing the page
 
 [Alerts]
@@ -71,6 +76,8 @@ OnFull = true
 OnStartStop = true
 RoundupHours = 0     # 0 = never
 ```
+
+The layers themselves come from the host mod, and `[Map] Layers = false` in its config (`waygate.cfg`) switches them off for the page and the map feed alike.
 
 ## Where the pictures come from
 
