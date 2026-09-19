@@ -11,6 +11,26 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.8] - 2026-09-18
+
+### Server
+
+#### Added
+
+- The live map carries five new layers: quests (where each quest's current step takes place, with the step's words and count), bosses (each lair and how it fares: not woken yet, awake, in a fight with its health, down, or beaten), chests (loot chests shut or opened with their refill clock, and players' storage chests), people and places (the named people, the deed board, the village works, the card tables), and world progress (the story, side quests, bosses beaten, the works built, the arena, the guild tier).
+- `[Web] PublicLayers` lists which of those layers someone who has not unlocked the server's web page sees (quests, bosses, people and progress by default); unlocked, the page shows them all. A player's own quests are never shown to visitors. `[Map] Layers = false` switches the layers off.
+
+#### Fixed
+
+- Removed the red engine lines at every world start on a server without a host character: the seven coroutines the game asks for on the server's inactive stand-in are answered quietly, and nothing about the stand-in reaches the console feed.
+- Stopped echoing a chat line a server mod has already claimed as a command into the console as if it were chat.
+
+### Client
+
+#### Added
+
+- The Console tab's commands and their answers are written to the app's log, one line each.
+
 ## [0.3.7] - 2026-09-18
 
 ### Server
