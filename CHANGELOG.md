@@ -11,6 +11,33 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.11] - 2026-09-19
+
+A player and a server on different builds of the game cannot play together, and the game does
+not say so: the join is approved and dropped a few seconds later. Steam updates players the day
+a patch ships; a server changes build only when its files are updated and it restarts. This
+release says it in words, on the server, in the app and inside the game.
+
+### Server
+
+#### Added
+
+- Added the server's game build to everything it publishes: `steam_build` in `status.json` (the Steam build id from the app manifest beside the game, empty when there is none), in `/api/v1/health` and `/api/v1/web`, in the `status` command, and as `build=` in the query answer's keywords. `game_version`, the game's own version string, was already there.
+- Added join ticket v3, which carries the joining player's game build. A player on another build is refused at the join, and the console says which side has to move, at most once a minute: `A player on game version eDev 0.107.7694 could not join: this server runs the older eDev 0.107.7689. Restart the server to update it.` With Discord alerts on, the same line is a join alert. Tickets v1 and v2 from apps before 0.3.11 are read as before, without a build check. See "Game builds" in `docs/status-and-commands.md`.
+
+#### Fixed
+
+- Fixed `spawn`. It called a developer tool that retail builds of the game do not contain, so it answered "the monster spawner is not available" on every server since 0.2.0. It now uses the game's own spawn path. Bosses, mini-bosses and monsters whose death moves the world's story are refused: a console copy of one would set off its story event.
+
+### Client
+
+#### Added
+
+- Added a game build check before the game starts. The app reads the Steam build of the game on this PC and compares it with the server's. On a difference the server reads "Online (other game version)" and Connect stops with the side that has to move: "This server is on an older game version. Its owner needs to restart it." or "Your game is older than this server: update Dimraeth in Steam."
+- The check also works against servers before 0.3.11, which already advertise the game's version string: the client mod compares it with its own inside the game before it connects, and the app uses the string the client mod recorded on this PC's last run, for as long as the installed Steam build is still the one it was recorded under.
+- A join the client mod stopped (another game build, a refused password, a full server) is shown in the app with its reason. The game itself shows nothing.
+- `--probe <host:port> --game <folder>` also prints the server's game build and whether that install can play there.
+
 ## [0.3.10] - 2026-09-19
 
 ### Server

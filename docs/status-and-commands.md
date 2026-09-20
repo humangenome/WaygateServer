@@ -18,6 +18,7 @@ reader never sees a half-written document.
   "verdict": "HOSTING",
   "product": "Waygate 0.1.0",
   "game_version": "eDev 0.107.7689",
+  "steam_build": "25335390",
   "port": 15569,
   "query_port": 15570,
   "ports": { "game": 15569, "query": 15570, "rcon": 15572, "http": 15573, "web": 15574 },
@@ -36,6 +37,7 @@ reader never sees a half-written document.
 | `verdict` | The boot report's verdict: `STARTING`, `HOSTING`, `WILL NOT HOST`, `WORLD DID NOT START` |
 | `product` | Host mod name and version |
 | `game_version` | The game's own version string |
+| `steam_build` | The Steam build id of the game files this server started from, read once at start from `steamapps\appmanifest_2402680.acf` beside the game (or two folders up, in a Steam library). Empty when the folder has no manifest. See "Game builds" below |
 | `port` / `query_port` | Gameplay UDP port and the A2S port the responder really has (usually `port + 1`) |
 | `ports` | Where each listener really is: `game`, `query`, `rcon`, `http`, `web`; `0` = not listening. See "When a port is taken" below. Read these instead of assuming `port + n` |
 | `players` / `max_players` | Connected players and the slot cap. The host has no character of its own, so nothing but real players is ever counted |
@@ -77,6 +79,38 @@ port, allow the spare ports too.
 
 Every listener is closed the moment the server is asked to shut down, before the game begins to
 close, so a restart finds its usual ports free.
+
+## Game builds: a player and a server must run the same one
+
+A player and a server on different builds of Dimraeth cannot play together, and the game does
+not say so: it approves the join and drops it a few seconds later, with no reason in either
+log. Steam updates players the day a patch ships. A server only changes build when its game
+files are updated and it is started again. So after every game patch, a server that has not
+been updated turns every player away until it is.
+
+From 0.3.11 this is said in words:
+
+- The server publishes its build: `game_version` and `steam_build` in `status.json`, the same two
+  in `/api/v1/health`, and `build=<steam build>` in the query answer's keywords (`build=0` when
+  the folder has no Steam manifest). The A2S version field is the game's version string, as it
+  has been since 0.1.2.
+- The app compares that with the game installed on the player's PC before it starts the game,
+  and stops with the side that has to move: "This server is on an older game version. Its owner
+  needs to restart it." or "Your game is older than this server: update Dimraeth in Steam." The
+  client mod makes the same comparison inside the game before it connects.
+- The join ticket (v3) carries the player's build. A player on another build is refused at the
+  join, and the console says so once a minute at most:
+  `A player on game version eDev 0.107.7694 could not join: this server runs the older eDev 0.107.7689. Restart the server to update it.`
+  With Discord alerts on, that line is a join alert.
+- Two builds are the same when the game's version strings match; the Steam build ids decide only
+  when a string is missing. A side that could not be read is never treated as different.
+
+"Restart the server to update it" is true where the start script updates the game first. If
+yours does not, update the game files (SteamCMD `app_update 2402680`) and then start the server.
+
+Apps before 0.3.11 send ticket v1 or v2, which carry no build; they are admitted as before and
+fall back to the game's own silent drop on a build difference. The app sends v3 only to a server
+that advertises `build=`: an older server would read the extra lines as part of the password.
 
 ## commands.txt
 
