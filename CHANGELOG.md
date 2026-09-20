@@ -11,6 +11,23 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.12] - 2026-09-20
+
+### Server
+
+#### Fixed
+
+- Fixed the server throwing an exception on every spell that shakes the camera. The game shakes the camera from inside its spell handlers (a fireball landing, a heavy strike, a burning pit starting, a minotaur's or a treant's swipe); a headless server has no camera, so each call threw inside the handler that made it, about 15,000 times an hour on a busy server, and the handler stopped where it stood. The server now skips the shake. Players lose nothing: their own copy of every spell shakes their own camera.
+- Fixed the corrupted treant's swipe never finishing on the server. It runs as a coroutine that shook the camera partway through; the exception ended the coroutine there. With the shake skipped it runs to its end, as in the game's own co-op. Every other handler that shook the camera had already dealt its damage before the shake, or was a player's spell, whose damage the server's copy never sent.
+
+#### Added
+
+- Added `mem` to the console: where the server's memory is (process commit and working set, the .NET runtime, the engine's allocations, the game's scripting heap, object counts, the most common object names, the shadow clones alive).
+
+### Client
+
+No change; the app is rebuilt so both halves carry the same version.
+
 ## [0.3.11] - 2026-09-19
 
 A player and a server on different builds of the game cannot play together, and the game does

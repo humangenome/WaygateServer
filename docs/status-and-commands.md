@@ -124,6 +124,7 @@ with `#` are ignored.
 | `shutdown` (alias `stop`) | Save, then exit the process cleanly |
 | `restart` | Save, then exit; the supervisor that started the host is expected to start it again |
 | `kick <name-or-clientId>` | Disconnect one player, matched by display name first, then by Netcode client id |
+| `mem` (console only) | Where the server's memory is: process commit and working set, the .NET runtime, the engine's allocations, the game's scripting heap, object counts. Read-only |
 | `kill <name-or-clientId>` | Kill one player the way lethal damage would (health to zero, the game's own death handling on every client); the player respawns from their own death screen. For a player stuck in geometry or a broken state |
 
 Because the file is consumed whole, write it in one go (write to a temp name and rename) rather
