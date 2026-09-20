@@ -35,6 +35,7 @@ release says it in words, on the server, in the app and inside the game.
 
 - Added a game build check before the game starts. The app reads the Steam build of the game on this PC and compares it with the server's. On a difference the server reads "Online (other game version)" and Connect stops with the side that has to move: "This server is on an older game version. Its owner needs to restart it." or "Your game is older than this server: update Dimraeth in Steam."
 - The check also works against servers before 0.3.11, which already advertise the game's version string: the client mod compares it with its own inside the game before it connects, and the app uses the string the client mod recorded on this PC's last run, for as long as the installed Steam build is still the one it was recorded under.
+- When only the Steam build ids are known on this PC (the game has not run since its last update), the first Connect stops with the sentence and a second Connect within 90 seconds goes on: the client mod then compares the game's own version strings inside the game, which is certain. When both version strings are known and differ, Connect stops.
 - A join the client mod stopped (another game build, a refused password, a full server) is shown in the app with its reason. The game itself shows nothing.
 - `--probe <host:port> --game <folder>` also prints the server's game build and whether that install can play there.
 
