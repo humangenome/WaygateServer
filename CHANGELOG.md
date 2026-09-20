@@ -11,6 +11,18 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.13] - 2026-09-20
+
+### Server
+
+#### Added
+
+- Added a staff-only diagnostic that writes the server's memory summary to a file; off unless switched on per server. A file named `mem-wanted` in the waygate directory (younger than 24 hours; its content may be the number of minutes between readings, default 30, at least 5) makes the server append what the `mem` console command prints to `mem-log.txt` beside it, rolled over at 1 MB. Without that file nothing is written. Nothing is added to the console or to any log.
+
+### Client
+
+No change; the app is rebuilt so both halves carry the same version.
+
 ## [0.3.12] - 2026-09-20
 
 ### Server

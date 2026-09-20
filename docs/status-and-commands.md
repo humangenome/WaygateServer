@@ -112,6 +112,15 @@ Apps before 0.3.11 send ticket v1 or v2, which carry no build; they are admitted
 fall back to the game's own silent drop on a build difference. The app sends v3 only to a server
 that advertises `build=`: an older server would read the extra lines as part of the password.
 
+## mem-wanted and mem-log.txt (a diagnostic, off by default)
+
+Create an empty file named `mem-wanted` in the waygate directory and the server appends what the `mem`
+console command prints (process memory, the .NET runtime, the engine's allocations, the game's scripting
+heap, object counts, the most common object names) to `mem-log.txt` beside it, every 30 minutes. Put a
+number in the file to change the minutes (at least 5). The marker stops counting when it is older than
+24 hours; delete it to stop sooner. `mem-log.txt` rolls over to `mem-log.1.txt` at 1 MB. Nothing is written
+without the marker, and nothing about it appears in the console or in any log.
+
 ## commands.txt
 
 Drop a file named `commands.txt` into the waygate directory, one command per line. The host reads
