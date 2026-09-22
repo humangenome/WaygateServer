@@ -11,6 +11,18 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.14] - 2026-09-22
+
+### Server
+
+No change; the server package is rebuilt so both halves carry the same version.
+
+### Client
+
+#### Fixed
+
+- The character you pick in the app is the character that joins. The game replaced the pick with the most recently played character during the join, so anyone with two or more characters always arrived as the newest one and could not switch back. Every character stays, and you switch by picking it in the app.
+
 ## [0.3.13] - 2026-09-20
 
 ### Server
