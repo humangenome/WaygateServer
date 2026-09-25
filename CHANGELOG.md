@@ -11,6 +11,20 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.15] - 2026-09-25
+
+### Server
+
+#### Fixed
+
+- Servers start again on the game update of September 25 (game version 0.107.7779). The update changed one of the game's own calls that Waygate uses to set up the world, and every server on the new version stopped before loading. Waygate now starts on this version and on the earlier ones.
+
+### Client
+
+#### Fixed
+
+- Joining works again on the September 25 game update. The client mod stopped at the same call as the server and never connected. The app picks up this update on its own.
+
 ## [0.3.14] - 2026-09-22
 
 ### Server
