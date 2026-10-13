@@ -11,12 +11,14 @@
 
 # WaygateServer
 
-[Dimraeth](https://store.steampowered.com/app/2402680/) has no dedicated server. WaygateServer runs the game as one on a Windows machine, and players join it by IP and port through the [Waygate app](https://github.com/HumanGenome/Waygate). This repo is for the person running the server.
+[Dimraeth](https://store.steampowered.com/app/2402680/) has no dedicated server. Its multiplayer is a Steam lobby hosted from one player's copy of the game. WaygateServer adds a Dimraeth dedicated server: it runs the game headless on a Windows machine with a public IP and port, and players join it by address through the [Waygate app](https://github.com/HumanGenome/Waygate). This repo is for the person running the server; players only need the app.
 
 ## What it does
 
 - Runs Dimraeth with no screen, no desktop session and no Steam login
 - Creates and saves the world on the host
+- Leaves untouched a world saved in a format the running game version cannot read, and says why in the boot report, instead of the game moving it aside and starting a new one
+- Tells a player whose game version differs from the server's, in the app before connecting, instead of a silent drop
 - Takes direct connections on a UDP port
 - No character of its own: nothing is spawned for the server, so it takes no seat, leads no party and is in no list
 - Serves its own web page: the world map drawn from the game's own pixels, every player's position every five seconds, a fog of war over ground nobody has found yet, the console, who is playing, Discord alerts
@@ -38,7 +40,7 @@
 | | |
 |---|---|
 | OS | Windows 10, Windows 11, or Windows Server |
-| Game files | A Dimraeth installation on the host (about 6 GB) |
+| Game files | A Dimraeth installation on the host, from your own Steam copy (about 4.6 GB) |
 | Ports | Two UDP ports, the gameplay port and the one above it for server query; three TCP ports above those for RCON, the admin API and the web page, opened only for the people who should reach them |
 | Hardware | No GPU required; plan on 4 to 8 GB of RAM per server (the game simulates the whole world even with nobody online) |
 
