@@ -21,7 +21,7 @@ Open an issue using the **Bug report** template. Include:
 - The server log, and the game's own log
 - Whether it reproduces on a clean world
 
-If your issue is about managed hosting you bought — the control panel, billing, or support — contact your host directly. Waygate's GitHub issues are for the open-source server, app, and mods themselves.
+If your issue is about a hosted server you rent (the control panel, billing, or support), contact your host directly. Waygate's GitHub issues are for the open-source server, app, and mods themselves.
 
 ## Feature requests
 

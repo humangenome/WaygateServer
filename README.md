@@ -99,7 +99,7 @@ Anyone with the address sees the map and who is playing. The console, the player
 
 `waygate\status.json` is rewritten every 5 seconds with the verdict, ports, player count, roster and uptime. Drop a `waygate\commands.txt` with `save`, `shutdown`, `restart` or `kick <name>` and the host runs it on its next tick. Details: [docs/status-and-commands.md](docs/status-and-commands.md).
 
-## Managed hosting
+## Rent a server
 
 If you would rather not run the machine, [SurvivalServers.com](https://www.survivalservers.com/services/game_servers/dimraeth/?utm_source=github&utm_medium=readme_install&utm_campaign=waygate) runs Dimraeth servers with Waygate already installed and the ports already open.
 
