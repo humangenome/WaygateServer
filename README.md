@@ -70,7 +70,7 @@ The two UDP ports must be open on the host firewall and forwarded if the server 
    The world is created on the first start. `waygate\boot-report.txt` says `HOSTING` once players can join, or exactly what stopped it if they cannot.
 5. Hand players the address as `ip:port`. They add it in the Waygate app and press Connect.
 
-Running two servers on one machine: give each its own copy of the game folder (a junction works) and its own port, and pass `--waygate-dir=<folder>` so their saves and status files never share a path.
+Running two servers on one machine: each needs its own gameplay port and its own `--waygate-dir=<folder>`, so their saves and status files never share a path. Give each its own copy of the game folder, or run both from one folder and point each at its own host config with `--waygate-config=<path to its .cfg>`; the admin settings are then read from `com.humangenome.waygate.admin.cfg` in the same folder as that file. Two servers started from one folder without it read the same config and ask for the same port.
 
 ## The web page
 
