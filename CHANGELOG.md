@@ -11,6 +11,36 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.17] - 2026-10-25
+
+### Server
+
+#### Fixed
+
+- A world that was renamed on a PC before it was put on a server now starts. The game keeps a world's name inside the file and saves under that name, so a renamed world failed to load; the server now gives the world its file's name before loading it, and saves go back to the same file.
+- With the server's web page switched off (`[Web] Enable = false`), the live map is no longer answered without the admin password on the admin port, whatever `[Web] PublicMap` says.
+
+### Client
+
+#### Added
+
+- Each server in the list shows the game version it runs ("Game 0.107.7839"), and the bottom bar shows yours ("Your game 0.107.7839"), so a server on another version stands out before you press Connect. Your own version shows after you have started the game once since its last update.
+
+#### Changed
+
+- Delete in the Characters window now removes the character for good, after asking. Older versions kept a copy for Restore, and Steam Cloud put the character back at the game's next start while the app no longer listed it. The Waygate mod now deletes that returning copy when the game starts, and only when it is the very character you deleted, so a new character with the same name is safe. Characters deleted with an older version can still be restored.
+
+#### Fixed
+
+- The server card's top line shows the game's version instead of the Waygate version.
+- The Add server window's hint reads "Enter the address your server's host gave you: the IP or name, and the game port."
+- The player bar on a server card no longer runs under the player count.
+- The World backups window shows its snapshot list again, with Download, Restore and import, and fits a 1366x768 screen.
+- Icons that drew as empty boxes on Windows 10 and Windows Server now draw.
+- The Console tab's Host, Port, Admin password and Connect bar is visible again, and the admin password is masked.
+- The app no longer risks freezing when it is started minimized; it uses almost no CPU while it sits in the tray.
+- The Characters window's button reads "New character" instead of "+ + New character".
+
 ## [0.3.15] - 2026-09-25
 
 ### Server

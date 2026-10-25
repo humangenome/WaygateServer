@@ -51,7 +51,7 @@ The owner's parts unlock with the admin password: `Password` under `[Admin]` in 
 
 ## Sharing the address
 
-Anyone who can reach the port sees the map, with player names and positions. To keep the map for the owner too, set `PublicMap = false` under `[Web]`; the page then asks for the password before drawing it. To switch the page off entirely, set `Enable = false` under `[Web]`.
+Anyone who can reach the port sees the map, with player names and positions. To keep the map for the owner too, set `PublicMap = false` under `[Web]`; the page then asks for the password before drawing it. To switch the page off entirely, set `Enable = false` under `[Web]`; from 0.3.17 that also stops the admin port answering the map without the password, whatever `PublicMap` says.
 
 Behind NAT, forward TCP `game port + 5` like the two UDP ports. The page is plain HTTP; put it behind your own reverse proxy if you want a name and a certificate.
 
