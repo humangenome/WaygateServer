@@ -1,8 +1,8 @@
 # The host control plane: status.json, commands.txt and A2S
 
-A Waygate host has no admin HTTP API and no RCON in this release. Three small, boring things
-stand in for them, and the SurvivalServers panel drives all three from the box the server runs
-on. Nothing here needs a key, a port or a login beyond being able to read the instance folder.
+Three small files and answers that a panel or a script can use from the machine the server runs on.
+Nothing here needs a key, a port or a login beyond being able to read the instance folder. Source
+RCON and the signed HTTP API are separate and need the admin password ([ports](../README.md#ports)).
 
 Everything lives in the instance's **waygate directory**: `<game>\waygate\` by default, or the
 folder named by `--waygate-dir=<dir>` on the command line (the panel passes one per instance so
@@ -154,7 +154,5 @@ refreshes, so it never touches game objects and a flood of queries cannot stall 
 
 ## What is deliberately not here
 
-- No remote console: the game has no command surface to expose, and a fake one would be a
-  liability. When the host grows an admin plane the launcher's Console tab comes back with it.
-- No roster history or map: `status.json` is a live snapshot, not a log. Keep your own history by
+- No roster history: `status.json` is a live snapshot, not a log. Keep your own history by
   sampling it.
