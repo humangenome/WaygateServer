@@ -35,7 +35,7 @@ section here cannot be released.
 - The server card's top line shows the game's version instead of the Waygate version.
 - The Add server window's hint reads "Enter the address your server's host gave you: the IP or name, and the game port."
 - The player bar on a server card no longer runs under the player count.
-- The World backups window shows its snapshot list again, with Download, Restore and import, and fits a 1366x768 screen.
+- The World backups window shows its controls again and fits a 1366x768 screen.
 - Icons that drew as empty boxes on Windows 10 and Windows Server now draw.
 - The Console tab's Host, Port, Admin password and Connect bar is visible again, and the admin password is masked.
 - The app no longer risks freezing when it is started minimized; it uses almost no CPU while it sits in the tray.
