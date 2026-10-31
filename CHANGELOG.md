@@ -11,6 +11,31 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.18] - unreleased
+
+### Server
+
+#### Added
+
+- World backups: the app's World window now lists a server's backups and can download one, restore one, or bring in a world from a zip. The world that was running is backed up first and kept, and a world this game version cannot load is turned down before anything changes.
+
+#### Fixed
+
+- The admin port checks the signature before it reads a request's body, and bodies over 64 KB must name their SHA-256.
+- One address can no longer hold every admin connection, and five wrong passwords or signatures from one address turn it away for a minute, doubling to 15.
+
+### Client
+
+#### Fixed
+
+- Updating works in a Windows user folder with an accented letter, a ! or a %. Before this the app closed to update and did not come back.
+- An update that cannot finish waits six hours before trying again, instead of closing the app again and again.
+- The app no longer closes itself to update while you are connecting, and an app in the tray comes back to the tray.
+- A server name can no longer change the game mod's settings.
+- A plain Steam start after a first connect that was stopped runs the normal game.
+- The Console tab finds the server's admin port when it has moved, and opens connected when the password is saved.
+- Rename shows only for characters it can rename.
+
 ## [0.3.17] - 2026-10-25
 
 ### Server
