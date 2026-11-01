@@ -35,6 +35,7 @@ section here cannot be released.
 - A plain Steam start after a first connect that was stopped runs the normal game.
 - The Console tab finds the server's admin port when it has moved, and opens connected when the password is saved.
 - Rename shows only for characters it can rename.
+- The window fits the screen at 150% scaling and above. It used to run under the taskbar on a 1080p screen.
 
 ## [0.3.17] - 2026-10-25
 
