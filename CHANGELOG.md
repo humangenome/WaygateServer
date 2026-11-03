@@ -11,7 +11,7 @@ section here cannot be released.
 
 ## [Unreleased]
 
-## [0.3.18] - unreleased
+## [0.3.18] - 2026-11-02
 
 ### Server
 
