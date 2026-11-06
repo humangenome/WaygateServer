@@ -11,6 +11,12 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.19] - 2026-11-06
+
+### Server
+
+No changes since 0.3.18.
+
 ## [0.3.18] - 2026-11-02
 
 ### Server
