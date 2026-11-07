@@ -17,6 +17,13 @@ section here cannot be released.
 
 No changes since 0.3.18.
 
+### Client
+
+#### Fixed
+
+- Waygate starts on Windows builds that only partly support a newer processor safety feature. On those PCs 0.3.18 could stop with "Your Windows doesn't fully support CET".
+- Waygate uses about half the processor time while it is minimized or in the tray, and Exit from the tray no longer hangs.
+
 ## [0.3.18] - 2026-11-02
 
 ### Server
