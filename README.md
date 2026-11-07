@@ -24,6 +24,7 @@
 - Serves its own web page: the world map drawn from the game's own pixels, every player's position every five seconds, a fog of war over ground nobody has found yet, the console, who is playing, Discord alerts
 - Loads server mods from a folder and tells the Waygate app which client mods a server needs, so players get them on connect
 - Source RCON and a signed HTTP API for admin tools, once an admin password is set
+- World backups through that API: the Waygate app's World window lists them, downloads or restores one, and brings in a world from a zip. The running world is backed up first, and a world this game version cannot load is turned down before anything changes
 - Bans and an allow list keyed on the player's character and address, kept across restarts
 - Answers Source server query on the port above the gameplay port
 - Optional join password
