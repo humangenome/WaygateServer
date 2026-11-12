@@ -11,6 +11,24 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.20] - 2026-11-12
+
+### Server
+
+#### Added
+
+- A stopped server still has a map. The server keeps a copy of the map as it was at the last save, written when the world is saved, when the server stops cleanly, and at most once a minute while people play (`waygate/map-last.json`).
+- The server keeps its own activity list: who joined, left, died and what killed them, levelled up, beat a boss or was turned away, and when the server started and stopped. It holds names and character ids only, never chat or addresses, and never takes more than 2 MB (`waygate/events.jsonl`). Server tools can read it with `GET /api/v1/events`.
+- `GET /api/v1/players/known` lists every character this world has seen and where each was last.
+
+#### Fixed
+
+- Blocking a player who is not online keeps their name on the block list. It used to show them as Unknown.
+
+### Client
+
+No change; the app is rebuilt so both halves carry the same version.
+
 ## [0.3.19] - 2026-11-06
 
 ### Server
