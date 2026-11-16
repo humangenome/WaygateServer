@@ -31,7 +31,7 @@
 - Bans and an allow list keyed on the player's character and address, kept across restarts
 - Answers Source server query on the port above the gameplay port
 - Optional join password
-- Up to 8 players, the game's own limit
+- Up to 8 players, the number Dimraeth's Steam page gives
 
 ## What it does not do
 
@@ -101,7 +101,7 @@ Anyone with the address sees the map and who is playing. The console, the player
 
 ## Running it from a panel or a script
 
-`waygate\status.json` is rewritten every 5 seconds with the verdict, ports, player count, roster and uptime. Drop a `waygate\commands.txt` with `save`, `shutdown`, `restart` or `kick <name>` and the host runs it on its next tick. Details: [docs/status-and-commands.md](docs/status-and-commands.md).
+`waygate\status.json` is rewritten every 5 seconds while the server runs, with the verdict, ports, player count, roster and uptime; once the server stops, the file keeps its last snapshot. Drop a `waygate\commands.txt` with `save`, `shutdown`, `restart` or `kick <name>` and the host runs it on its next tick. Details: [docs/status-and-commands.md](docs/status-and-commands.md).
 
 ## Rent a server
 

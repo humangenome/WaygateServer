@@ -13,6 +13,11 @@ two servers on one machine never share a file).
 Rewritten every 5 seconds by the host, atomically (a complete temp file is swung into place), so a
 reader never sees a half-written document.
 
+Only a running host writes it. Once the server stops, cleanly or not, the file keeps its last
+snapshot: `verdict` still reads what it last said (`HOSTING` for a server that was up) and `roster`
+still lists whoever was on at that moment. Judge a stopped server by its process, or by the age of
+`written`, never by this file alone.
+
 ```json
 {
   "verdict": "HOSTING",
