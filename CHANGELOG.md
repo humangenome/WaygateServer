@@ -11,6 +11,19 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.21] - 2026-11-15
+
+### Server
+
+No changes since 0.3.20.
+
+### Client
+
+#### Fixed
+
+- Windows' Apps list shows the version you are running after Waygate updates itself.
+- Rename shows again for a hero the game has not saved yet.
+
 ## [0.3.20] - 2026-11-12
 
 ### Server
