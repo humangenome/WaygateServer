@@ -93,7 +93,7 @@ From 0.3.11 this is said in words:
   client mod makes the same comparison inside the game before it connects.
 - The join ticket (v3) carries the player's build. A player on another build is refused at the
   join, and the console says so once a minute at most:
-  `A player on game version eDev 0.107.7694 could not join: this server runs the older eDev 0.107.7689. Restart the server to update it.`
+  `A player on game version eDev 0.107.7694 couldn't join: this server runs the older eDev 0.107.7689. Restart the server to update it.`
   With Discord alerts on, that line is a join alert.
 - Two builds are the same when the game's version strings match; the Steam build ids decide only
   when a string is missing. A side that could not be read is never treated as different.
