@@ -1,12 +1,8 @@
-# The host control plane: status.json, commands.txt and A2S
+# Status file, commands file and server query
 
-Three small files and answers that a panel or a script can use from the machine the server runs on.
-Nothing here needs a key, a port or a login beyond being able to read the instance folder. Source
-RCON and the signed HTTP API are separate and need the admin password ([ports](../README.md#ports)).
+Files and a query answer that a panel or a script on the server's machine can use. None of it needs a key or a login, only read access to the server's folder. Source RCON and the signed HTTP API are separate and need the admin password ([ports](../README.md#ports)).
 
-Everything lives in the instance's **waygate directory**: `<game>\waygate\` by default, or the
-folder named by `--waygate-dir=<dir>` on the command line (the panel passes one per instance so
-two servers on one machine never share a file).
+Everything lives in the server's **waygate directory**: `<game>\waygate\` by default, or the folder named by `--waygate-dir=<dir>` on the command line. Give each server its own, so two servers on one machine never share a file.
 
 ## status.json
 
@@ -46,8 +42,7 @@ reader never sees a half-written document.
 | `written` | UTC timestamp of this snapshot |
 | `roster` | Display names of connected players, from the replicated player name |
 
-`boot-report.txt` in the same folder is the human-readable version of `verdict` with a one-line
-`detail:`; it is what a support person reads first.
+`boot-report.txt` in the same folder is the human-readable version of `verdict`, with a one-line `detail:`. It's the first thing to read when a server won't start.
 
 `last-shutdown.json` in the same folder is written by every `shutdown` and `restart`, right after
 the save and before the game begins to close:
@@ -56,8 +51,7 @@ the save and before the game begins to close:
 { "when": "2026-09-19T19:34:07.4456305Z", "why": "commands.txt", "restart": false, "world_saved": true }
 ```
 
-A supervisor that stops the server reads it to learn whether the world was saved, instead of
-searching a log.
+A panel or script that stops the server can read it to learn whether the world was saved, instead of searching a log.
 
 ## When a port is taken
 
@@ -73,8 +67,7 @@ Each listener has a usual port and two spare ones inside the server's own block 
 A port set in the config is tried first. When the usual port is held by another program, the
 listener takes the next one, the host log and the console say which, and `status.json`
 (`ports`), the query answer's keywords (`query=`, `rcon=`, `http=`, `web=`) and the admin API
-report it. The Waygate app follows a moved server by itself. A listener that finds none of its
-ports free says so and stays off; the server keeps running. If you firewall the block port by
+report it. The Waygate app follows a moved server by itself. A listener that finds none of its ports free says so and stays off. The server keeps running. If you firewall the block port by
 port, allow the spare ports too.
 
 Every listener is closed the moment the server is asked to shut down, before the game begins to
@@ -131,7 +124,7 @@ with `#` are ignored.
 |---|---|
 | `save` | Write the world save now |
 | `shutdown` (alias `stop`) | Save, then exit the process cleanly |
-| `restart` | Save, then exit; the supervisor that started the host is expected to start it again |
+| `restart` | Save, then exit. Whatever started the server (a panel or a script) starts it again |
 | `kick <name-or-clientId>` | Disconnect one player, matched by display name first, then by Netcode client id |
 | `mem` (console only) | Where the server's memory is: process commit and working set, the .NET runtime, the engine's allocations, the game's scripting heap, object counts. Read-only |
 | `kill <name-or-clientId>` | Kill one player the way lethal damage would (health to zero, the game's own death handling on every client); the player respawns from their own death screen. For a player stuck in geometry or a broken state |
@@ -147,9 +140,7 @@ has just come up.
 
 The host answers `A2S_INFO` and `A2S_PLAYER` (with the challenge handshake) on UDP `port + 1`
 (or a spare query port, see "When a port is taken").
-This is what the Waygate app's Online badge, the panel's player count and any generic server
-query tool speak. The extra-data flags carry the Steam app id (2402680) so tools that key on it
-recognise the game. The responder runs on a background thread over a snapshot the game thread
+This is what the Waygate app's Online badge, a hosting panel's player count and any server query tool read. The responder runs on a background thread over a snapshot the game thread
 refreshes, so it never touches game objects and a flood of queries cannot stall the world.
 
 ## What is deliberately not here

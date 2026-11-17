@@ -1,6 +1,6 @@
 # The server's web page
 
-Every Waygate server serves a page about itself on **game port + 5** (`15574` for a server on the default `15569`). It runs inside the host process and needs nothing installed: open `http://<server ip>:<game port + 5>/` in a browser.
+Every Waygate server has its own web page with a live map, on **game port + 5** (`15574` for a server on the default `15569`). The server runs it itself, so there's nothing to install: open `http://<server ip>:<game port + 5>/` in a browser.
 
 <p align="center">
   <img src="img/web-map.png" alt="The map tab: Earlwood with a player's live position" width="860">
@@ -12,10 +12,10 @@ Every Waygate server serves a page about itself on **game port + 5** (`15574` fo
 |---|---|---|
 | Map | anyone with the address | The world from the game's own pixels, one tab per area (Earlwood, Lost Caverns, Sanctum, Goblin Caves), with every connected player's live position and name (refreshed every five seconds), the Waygates and map crystals they have found, boss fights, temporary portals and the Sanctum's buildings. The layers button hides or shows each kind of marker and switches the fog of war on. |
 | Console | the owner | The server's live log (joins, leaves, chat, deaths, saves, admin actions, the game's own warnings) and a command line. The quick actions run the common commands; `help` lists them all. |
-| Players | anyone; controls for the owner | Everyone connected, with level, area and time on. The owner can remove or block a player and manage the block list. |
+| Players | anyone, with controls for the owner | Everyone connected, with level, area and time on. The owner can kick or ban a player and manage the ban list. |
 | Alerts | the owner | Discord messages the server posts itself: joins and leaves, deaths, the server filling up, the world coming up, a scheduled stop, and an optional round-up. |
 
-The rail on the right lists who is playing on every tab; on a phone it is a sheet at the bottom.
+The list on the right shows who's playing on every tab. On a phone it's a sheet at the bottom.
 
 <p align="center">
   <img src="img/web-console.png" alt="The console tab, unlocked: the live log, a command and its answer, the quick actions" width="860">
@@ -35,7 +35,7 @@ The map is the world as the game itself draws it: a capture of the loaded world 
 
 ## The fog of war
 
-The game hides a region on its own map until a player has set foot in it, one cut-out per region. The page can do the same: switch **Fog of war** on in the layers menu and every region nobody has discovered yet goes under the game's own fog, with its markers and name held back. The menu also picks whose discoveries count, anyone's or one named player's. It is off by default for the owner, and `FogOfWar = world` under `[Web]` makes it the page's starting state for everyone; the layers menu can still switch it once unlocked.
+The game hides a region on its own map until a player has set foot in it, one cut-out per region. The page can do the same: switch **Fog of war** on in the layers menu and every region nobody has discovered yet goes under the game's own fog, with its markers and name held back. The menu also picks whose discoveries count, anyone's or one named player's. It's off by default. `FogOfWar = world` under `[Web]` turns it on for everyone when the page opens, and the layers menu can still switch it once unlocked.
 
 <p align="center">
   <img src="img/web-fog.png" alt="The fog of war on: the village a player has discovered is drawn, the rest of Earlwood is under the game's fog, and the layers menu lists whose discoveries count" width="860">
@@ -47,13 +47,13 @@ Beside the landmarks, the map draws what the world is doing: quests where their 
 
 ## The password
 
-The owner's parts unlock with the admin password: `Password` under `[Admin]` in `BepInEx\config\com.humangenome.waygate.admin.cfg`. It is the same password RCON and the Waygate app's Console tab use. Typed once, it stays in that browser (nowhere else) and signs every owner action the same way the app does; it is never sent as text. With no password set, the map and the player list still work and the owner parts say so.
+The owner's parts unlock with the admin password: `Password` under `[Admin]` in `BepInEx\config\com.humangenome.waygate.admin.cfg`. It is the same password RCON and the Waygate app's Console tab use. Typed once, it stays in that browser (nowhere else) and signs every owner action the same way the app does. It's never sent as text. With no password set, the map and the player list still work and the owner parts say so.
 
 ## Sharing the address
 
-Anyone who can reach the port sees the map, with player names and positions. To keep the map for the owner too, set `PublicMap = false` under `[Web]`; the page then asks for the password before drawing it. To switch the page off entirely, set `Enable = false` under `[Web]`; from 0.3.17 that also stops the admin port answering the map without the password, whatever `PublicMap` says.
+Anyone who can reach the port sees the map, with player names and positions. To keep the map for the owner too, set `PublicMap = false` under `[Web]`; the page then asks for the password before drawing it. To switch the page off, set `Enable = false` under `[Web]`. The admin port then stops showing the map without the password too, whatever `PublicMap` says.
 
-Behind NAT, forward TCP `game port + 5` like the two UDP ports. The page is plain HTTP; put it behind your own reverse proxy if you want a name and a certificate.
+Behind NAT, forward TCP `game port + 5` like the two UDP ports. The page is plain HTTP. Put it behind your own reverse proxy if you want a domain name and HTTPS.
 
 ## Settings
 
@@ -83,6 +83,6 @@ The layers themselves come from the host mod, and `[Map] Layers = false` in its 
 
 The map is drawn by the game: the loaded world rendered through the game's own camera at noon, with monsters, weather and screen effects off, placed by the area rectangles the running game reports, tiled for the browser and shipped in the release beside the plugin (`BepInEx\plugins\WaygateAdmin\www\maps`). Live positions come from the host's own memory every five seconds while a page is open, and nothing is written to disk for it.
 
-## What it is not
+## What it can't do
 
-The page cannot tell you the server is down: a message the server sends cannot arrive once the server is gone. It is not an anti-cheat and it does not edit the world. Start, stop and restart are `shutdown` and `restart` in the console, with a countdown players see in chat.
+The page can't tell you the server is down, because a stopped server sends nothing. It isn't an anti-cheat and it doesn't edit the world. To stop or restart the server, type `shutdown` or `restart` in the console. Players see a countdown in chat.
