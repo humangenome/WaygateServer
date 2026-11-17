@@ -21,8 +21,8 @@ No changes since 0.3.20.
 
 #### Fixed
 
-- Windows' Apps list shows the version you are running after Waygate updates itself.
-- Rename shows again for a hero the game has not saved yet.
+- Windows' Apps list shows the version you're running after Waygate updates itself.
+- Rename shows again for a hero the game hasn't saved yet.
 
 ## [0.3.20] - 2026-11-12
 
