@@ -11,6 +11,22 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.22] - 2026-11-20
+
+### Server
+
+#### Changed
+
+- The server now keeps at most the newest 20 uploaded and saved world backups, up to 512 MB in all. Copies made before an import still keep the newest 10.
+- A World Name that Windows cannot use as a file name, such as CON or a name ending in a dot, is now refused, and the server keeps the world it has.
+
+### Client
+
+#### Fixed
+
+- App updates no longer get stuck when the connection drops during a download. The app tries again.
+- Installing, updating or removing Waygate no longer deletes files that a folder link inside Waygate's folder points to.
+
 ## [0.3.21] - 2026-11-15
 
 ### Server
