@@ -16,29 +16,39 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    # The tag reaches the shell only through this variable, always quoted. Git
+    # allows $, ( ), ;, & and backticks in a tag name, and the form input takes
+    # any text, so the tag is never written into a script line.
+    env:
+      TAG: ${{ github.event.inputs.tag || github.ref_name }}
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Resolve tag
-        id: tag
+      # First step, before anything else runs: refuse any tag that is not a
+      # release version. Every tag this repo has published is v and three numbers.
+      - name: Check tag
+        shell: bash
         run: |
-          TAG="${{ github.event.inputs.tag || github.ref_name }}"
-          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
-          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+          pattern='^v[0-9]+\.[0-9]+\.[0-9]+$'
+          if [[ ! "${TAG}" =~ ${pattern} ]]; then
+            echo "::error::refusing this tag: a release tag here is v and three numbers, like v1.2.3"
+            exit 1
+          fi
+          echo "tag ${TAG} is a release version"
+
+      - uses: actions/checkout@v4
 
       # The tag must equal the version stamped in the build and the CHANGELOG.
       # Three siblings published a release whose binary reported a different
       # version than its own release page said.
       - name: Assert version
-        run: tools/ci/assert-version.sh --tag "${{ steps.tag.outputs.tag }}"
+        run: tools/ci/assert-version.sh --tag "${TAG}"
 
       # A missing CHANGELOG section is a hard failure here. A sibling's CI
       # failed soft and published "See CHANGELOG.md for details." five times.
       - name: Build release body from CHANGELOG
-        run: tools/ci/extract-changelog.sh "${{ steps.tag.outputs.version }}" release-body.md
+        run: tools/ci/extract-changelog.sh "${TAG#v}" release-body.md
 
       - name: Lint release body
-        run: tools/ci/lint-release-notes.sh release-body.md "${{ steps.tag.outputs.version }}"
+        run: tools/ci/lint-release-notes.sh release-body.md "${TAG#v}"
 
       # TODO when the server source carve-out lands: build and package here,
       # attach the server zip plus checksums.txt, and drop --draft below.
@@ -56,11 +66,11 @@ jobs:
           # author field is immutable once published.
           GH_TOKEN: ${{ secrets.HUMANGENOME_PAT || secrets.GITHUB_TOKEN }}
         run: |
-          if gh release view "${{ steps.tag.outputs.tag }}" --json name >/dev/null 2>&1; then
-            echo "release ${{ steps.tag.outputs.tag }} already exists; leaving it as-is"
+          if gh release view "${TAG}" --json name >/dev/null 2>&1; then
+            echo "release ${TAG} already exists; leaving it as-is"
           else
-            gh release create "${{ steps.tag.outputs.tag }}" \
-              --title "${{ steps.tag.outputs.tag }}" \
+            gh release create "${TAG}" \
+              --title "${TAG}" \
               --notes-file release-body.md \
               --draft
           fi
@@ -69,7 +79,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.HUMANGENOME_PAT || secrets.GITHUB_TOKEN }}
         run: |
-          AUTHOR=$(gh release view "${{ steps.tag.outputs.tag }}" --json author --jq .author.login)
+          AUTHOR=$(gh release view "${TAG}" --json author --jq .author.login)
           echo "release author: ${AUTHOR}"
           # Case-insensitive: the account's login is lowercase 'humangenome'
           # while the display name is 'HumanGenome', and GitHub logins are not
