@@ -11,6 +11,20 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.3.23] - 2026-11-26
+
+### Server
+
+#### Changed
+
+- Server list queries now ask for Valve's standard challenge first, and each address gets a limited number of replies a second.
+- The server never deletes backups you made or uploaded. It refuses a new one that would leave less than 2 GB free on the drive.
+- The server keeps the newest 5 copies it takes before an import or restore, instead of 10. If there's no room for that copy, the restore doesn't start.
+
+#### Fixed
+
+- A backup taken while the world is being saved tries again, and a failed backup no longer shows file paths.
+
 ## [0.3.22] - 2026-11-20
 
 ### Server
