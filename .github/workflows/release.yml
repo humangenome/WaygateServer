@@ -38,6 +38,28 @@ jobs:
           echo "tag ${TAG} is a release version"
 
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          # Every tag and the whole history, for the previous-tag check below.
+          fetch-depth: 0
+
+      # A release is built on the release before it (Security 2026-11-26): the highest v-and-three-numbers
+      # tag below this one, in version order, must be in the history of the commit being tagged.
+      - name: The previous release tag is in this commit's history
+        shell: bash
+        run: |
+          set -euo pipefail
+          prev="$(git tag -l 'v*' | awk '/^v[0-9]+\.[0-9]+\.[0-9]+$/' \
+            | { cat; printf '%s\n' "${TAG}"; } | sort -u -V \
+            | awk -v t="${TAG}" '$0 == t { print p; exit } { p = $0 }')"
+          if [ -z "${prev}" ]; then
+            echo "no release tag before ${TAG}: nothing to check"
+            exit 0
+          fi
+          if ! git merge-base --is-ancestor "${prev}" "${GITHUB_SHA}"; then
+            echo "::error::refusing ${TAG}: the previous release tag ${prev} is not in the history of the commit being tagged; build ${TAG} on ${prev}"
+            exit 1
+          fi
+          echo "the previous release tag ${prev} is in the history of ${GITHUB_SHA}"
 
       # The tag must equal the version stamped in the build and the CHANGELOG.
       # Three siblings published a release whose binary reported a different
