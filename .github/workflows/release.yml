@@ -53,29 +53,44 @@ jobs:
       - name: Lint release body
         run: tools/ci/lint-release-notes.sh release-body.md "${TAG#v}"
 
-      # TODO when the server source carve-out lands: build and package here,
-      # attach the server zip plus checksums.txt, and drop --draft below.
-      # Until then the release is created as a draft so nobody can download a
-      # release page that has nothing on it.
-      #
-      # Skipped when the release already exists: the release owner may create
-      # the release first (correct author, assets attached) and push the tag
-      # through it, in which case this workflow's job is only to gate the
-      # version, body, and author, not to create a second release.
-      - name: Create draft release
+      # The release page is made BY HAND, as a draft, before the tag (Security 2026-11-25/26), with
+      # exactly the body built above from CHANGELOG.md; the server zip and checksums.txt go onto it by
+      # hand too. A tag never creates, edits or publishes a release here and never touches Latest: this
+      # step only refuses when that draft is missing or wrong. gh finds drafts (GitHub's look-up of a
+      # release by tag answers 404 for one). Read the files back, scan, then publish by hand.
+      - name: The hand-made draft release is in place
         env:
-          # The workflow's own token (Security 2026-11-25); the release owner makes the release by hand as
-          # humangenome first, so its author stays humangenome (a workflow token would show github-actions[bot]).
+          # The workflow's own token (Security 2026-11-25); it can see a draft because this job may write contents.
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        shell: bash
         run: |
-          if gh release view "${TAG}" --json name >/dev/null 2>&1; then
-            echo "release ${TAG} already exists; leaving it as-is"
-          else
-            gh release create "${TAG}" \
-              --title "${TAG}" \
-              --notes-file release-body.md \
-              --draft
+          set -euo pipefail
+          rels="$(gh api "repos/${REPO}/releases?per_page=100" --paginate \
+            | jq -s --arg t "${TAG}" 'add // [] | map(select(.tag_name == $t))')"
+          n="$(jq 'length' <<<"${rels}")"
+          if [ "${n}" -ne 1 ]; then
+            echo "::error::expected exactly one release for ${TAG} (a draft made by hand first), found ${n}; this workflow never makes one"
+            exit 1
           fi
+          if [ "$(jq -r '.[0].draft' <<<"${rels}")" != "true" ]; then
+            echo "::error::the release for ${TAG} is already published; a tag here only ever meets a hand-made draft"
+            exit 1
+          fi
+          jq -r '.[0].body // ""' <<<"${rels}" > draft-body.md
+          same="$(jq -n --rawfile a draft-body.md --rawfile b release-body.md \
+            '($a | ltrimstr("\ufeff") | gsub("\r"; "") | sub("\\s+$"; "")) == ($b | ltrimstr("\ufeff") | gsub("\r"; "") | sub("\\s+$"; ""))')"
+          if [ "${same}" != "true" ]; then
+            echo "::error::the draft's text differs from the body built from CHANGELOG.md; fix the draft by hand"
+            exit 1
+          fi
+          others="$(jq -r --arg z "WaygateServer-${TAG#v}.zip" \
+            '.[0].assets[].name | select(. != $z and . != "checksums.txt")' <<<"${rels}")"
+          if [ -n "${others}" ]; then
+            echo "::error::the draft holds files other than WaygateServer-${TAG#v}.zip and checksums.txt: ${others}"
+            exit 1
+          fi
+          echo "Draft ${TAG} (release $(jq -r '.[0].id' <<<"${rels}")) is in place, made by hand."
 
       - name: Assert release author
         env:
